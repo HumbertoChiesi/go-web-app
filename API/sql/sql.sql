@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS usuarios;
 
 CREATE TABLE usuarios(
     id int auto_increment primary key,
-    nome varchar(50) not null,
+    name varchar(50) not null,
     nick varchar(50) not null unique,
     email varchar(50) not null unique,
     password varchar(50) not null unique,
