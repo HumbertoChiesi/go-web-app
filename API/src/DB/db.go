@@ -1,4 +1,4 @@
-package db
+package dBase
 
 import (
 	"api/src/config"

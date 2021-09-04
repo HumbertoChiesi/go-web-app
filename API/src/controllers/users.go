@@ -1,13 +1,14 @@
 package controllers
 
 import (
-	db "api/src/DB"
+	dBase "api/src/DB"
 	"api/src/models"
 	"api/src/repositories"
 	"api/src/responses"
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+	"strings"
 )
 
 //CreateUser inserts an user in the DB
@@ -29,7 +30,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	db, err := db.Connect()
+	db, err := dBase.Connect()
 	if err != nil {
 		responses.ERR(w, http.StatusInternalServerError, err)
 		return
@@ -48,7 +49,23 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 
 //SearchUsers searches for all the users in the DB
 func SearchUsers(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Searching all the users!!"))
+	nameOrNick := strings.ToLower(r.URL.Query().Get("user"))
+
+	db, err := dBase.Connect()
+	if err != nil {
+		responses.ERR(w, http.StatusInternalServerError, err)
+		return
+	}
+	defer db.Close()
+
+	repository := repositories.NewUsersRepository(db)
+	users, err := repository.Search(nameOrNick)
+	if err != nil {
+		responses.ERR(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	responses.JSON(w, http.StatusOK, users)
 }
 
 //SearchUser searches for an specific user in the DB (by the user's ID)
