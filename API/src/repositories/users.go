@@ -69,3 +69,60 @@ func (repository Users) Search(nameOrNick string) ([]models.User, error) {
 
 	return users, nil
 }
+
+//SearchByID brings the specific user that has the ID passed by parameter
+func (repository Users) SearchByID(ID uint64) (models.User, error) {
+	lines, err := repository.db.Query(
+		"Select id, name, nick, email, createdOn from usuarios where ID = ?", ID,
+	)
+	if err != nil {
+		return models.User{}, nil
+	}
+
+	var user models.User
+	if lines.Next() {
+		if err = lines.Scan(
+			&user.ID,
+			&user.Name,
+			&user.Nick,
+			&user.Email,
+			&user.CreatedOn,
+		); err != nil {
+			return models.User{}, nil
+		}
+	}
+
+	return user, nil
+}
+
+//Update updates an user's content in the DB
+func (repository Users) Update(ID uint64, user models.User) error {
+	statement, err := repository.db.Prepare(
+		"update usuarios set name = ?, nick = ?, email = ? where id = ?",
+	)
+	if err != nil {
+		return err
+	}
+	defer statement.Close()
+
+	if _, err = statement.Exec(user.Name, user.Nick, user.Email, ID); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+//Delete excludes the content of an user from the DB
+func (repository Users) Delete(ID uint64) error {
+	statement, err := repository.db.Prepare("delete from usuarios where id = ?")
+	if err != nil {
+		return err
+	}
+	defer statement.Close()
+
+	if _, err = statement.Exec(ID); err != nil {
+		return err
+	}
+
+	return nil
+}

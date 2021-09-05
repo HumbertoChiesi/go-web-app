@@ -8,6 +8,6 @@ CREATE TABLE usuarios(
     name varchar(50) not null,
     nick varchar(50) not null unique,
     email varchar(50) not null unique,
-    password varchar(50) not null unique,
+    password varchar(50) not null,
     createdOn timestamp default current_timestamp()
  ) ENGINE=INNODB;
