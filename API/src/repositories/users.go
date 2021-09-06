@@ -1,4 +1,4 @@
-package repositories
+package repository
 
 import (
 	"api/src/models"
@@ -70,7 +70,7 @@ func (repository Users) Search(nameOrNick string) ([]models.User, error) {
 	return users, nil
 }
 
-//SearchByID brings the specific user that has the ID passed by parameter
+//SearchByID brings from the DB the user that has the ID passed by parameter
 func (repository Users) SearchByID(ID uint64) (models.User, error) {
 	lines, err := repository.db.Query(
 		"Select id, name, nick, email, createdOn from usuarios where ID = ?", ID,
@@ -78,6 +78,7 @@ func (repository Users) SearchByID(ID uint64) (models.User, error) {
 	if err != nil {
 		return models.User{}, nil
 	}
+	defer lines.Close()
 
 	var user models.User
 	if lines.Next() {
@@ -125,4 +126,24 @@ func (repository Users) Delete(ID uint64) error {
 	}
 
 	return nil
+}
+
+//SearchByEmail brings from the DB the user that has the email passed by parameter
+func (repository Users) SearchByEmail(email string) (models.User, error) {
+	lines, err := repository.db.Query(
+		"Select id, password from usuarios where email = ?", email,
+	)
+	if err != nil {
+		return models.User{}, err
+	}
+	defer lines.Close()
+
+	var user models.User
+	if lines.Next() {
+		if err = lines.Scan(&user.ID, &user.Password); err != nil {
+			return models.User{}, err
+		}
+	}
+
+	return user, nil
 }

@@ -3,7 +3,7 @@ package controllers
 import (
 	dBase "api/src/DB"
 	"api/src/models"
-	"api/src/repositories"
+	repository "api/src/repositories"
 	"api/src/responses"
 	"encoding/json"
 	"io/ioutil"
@@ -40,7 +40,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	}
 	defer db.Close()
 
-	repository := repositories.NewUsersRepository(db)
+	repository := repository.NewUsersRepository(db)
 	user.ID, err = repository.Create(user)
 	if err != nil {
 		responses.ERR(w, http.StatusInternalServerError, err)
@@ -61,7 +61,7 @@ func SearchUsers(w http.ResponseWriter, r *http.Request) {
 	}
 	defer db.Close()
 
-	repository := repositories.NewUsersRepository(db)
+	repository := repository.NewUsersRepository(db)
 	users, err := repository.Search(nameOrNick)
 	if err != nil {
 		responses.ERR(w, http.StatusInternalServerError, err)
@@ -88,7 +88,7 @@ func SearchUser(w http.ResponseWriter, r *http.Request) {
 	}
 	defer db.Close()
 
-	repository := repositories.NewUsersRepository(db)
+	repository := repository.NewUsersRepository(db)
 	user, err := repository.SearchByID(userID)
 	if err != nil {
 		responses.ERR(w, http.StatusInternalServerError, err)
@@ -132,7 +132,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	}
 	defer db.Close()
 
-	repository := repositories.NewUsersRepository(db)
+	repository := repository.NewUsersRepository(db)
 	if err = repository.Update(userID, user); err != nil {
 		responses.ERR(w, http.StatusInternalServerError, err)
 		return
@@ -158,7 +158,7 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	}
 	defer db.Close()
 
-	repository := repositories.NewUsersRepository(db)
+	repository := repository.NewUsersRepository(db)
 	if err = repository.Delete(userID); err != nil {
 		responses.ERR(w, http.StatusInternalServerError, err)
 		return
