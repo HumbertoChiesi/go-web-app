@@ -2,10 +2,12 @@ package controllers
 
 import (
 	dBase "api/src/DB"
+	"api/src/authentication"
 	"api/src/models"
 	repository "api/src/repositories"
 	"api/src/responses"
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -108,6 +110,17 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	userTokenID, err := authentication.GetUserID(r)
+	if err != nil {
+		responses.ERR(w, http.StatusUnauthorized, err)
+		return
+	}
+
+	if userID != userTokenID {
+		responses.ERR(w, http.StatusForbidden, errors.New("not possible to update an user that is not yours"))
+		return
+	}
+
 	requestBody, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		responses.ERR(w, http.StatusUnprocessableEntity, err)
@@ -148,6 +161,17 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	userID, err := strconv.ParseUint(parameters["userId"], 10, 64)
 	if err != nil {
 		responses.ERR(w, http.StatusBadRequest, err)
+		return
+	}
+
+	userTokenID, err := authentication.GetUserID(r)
+	if err != nil {
+		responses.ERR(w, http.StatusUnauthorized, err)
+		return
+	}
+
+	if userID != userTokenID {
+		responses.ERR(w, http.StatusUnauthorized, errors.New("not possible to delete an user that is not yours"))
 		return
 	}
 

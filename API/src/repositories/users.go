@@ -17,7 +17,7 @@ func NewUsersRepository(db *sql.DB) *Users {
 
 func (repository Users) Create(user models.User) (uint64, error) {
 	statement, err := repository.db.Prepare(
-		"insert into usuarios (name, nick, email, password) values (?, ?, ?, ?)",
+		"insert into users (name, nick, email, password) values (?, ?, ?, ?)",
 	)
 	if err != nil {
 		return 0, err
@@ -42,7 +42,7 @@ func (repository Users) Search(nameOrNick string) ([]models.User, error) {
 	nameOrNick = fmt.Sprintf("%%%s%%", nameOrNick)
 
 	lines, err := repository.db.Query(
-		"select id, name, nick, email, createdON from usuarios where name LIKE ? or nick LIKE ?",
+		"select id, name, nick, email, createdON from users where name LIKE ? or nick LIKE ?",
 		nameOrNick, nameOrNick,
 	)
 	if err != nil {
@@ -73,7 +73,7 @@ func (repository Users) Search(nameOrNick string) ([]models.User, error) {
 //SearchByID brings from the DB the user that has the ID passed by parameter
 func (repository Users) SearchByID(ID uint64) (models.User, error) {
 	lines, err := repository.db.Query(
-		"Select id, name, nick, email, createdOn from usuarios where ID = ?", ID,
+		"Select id, name, nick, email, createdOn from users where ID = ?", ID,
 	)
 	if err != nil {
 		return models.User{}, nil
@@ -99,7 +99,7 @@ func (repository Users) SearchByID(ID uint64) (models.User, error) {
 //Update updates an user's content in the DB
 func (repository Users) Update(ID uint64, user models.User) error {
 	statement, err := repository.db.Prepare(
-		"update usuarios set name = ?, nick = ?, email = ? where id = ?",
+		"update users set name = ?, nick = ?, email = ? where id = ?",
 	)
 	if err != nil {
 		return err
@@ -115,7 +115,7 @@ func (repository Users) Update(ID uint64, user models.User) error {
 
 //Delete excludes the content of an user from the DB
 func (repository Users) Delete(ID uint64) error {
-	statement, err := repository.db.Prepare("delete from usuarios where id = ?")
+	statement, err := repository.db.Prepare("delete from users where id = ?")
 	if err != nil {
 		return err
 	}
@@ -131,7 +131,7 @@ func (repository Users) Delete(ID uint64) error {
 //SearchByEmail brings from the DB the user that has the email passed by parameter
 func (repository Users) SearchByEmail(email string) (models.User, error) {
 	lines, err := repository.db.Query(
-		"Select id, password from usuarios where email = ?", email,
+		"Select id, password from users where email = ?", email,
 	)
 	if err != nil {
 		return models.User{}, err
