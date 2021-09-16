@@ -147,3 +147,20 @@ func (repository Users) SearchByEmail(email string) (models.User, error) {
 
 	return user, nil
 }
+
+//Follow allows an user to follow another
+func (repository Users) Follow(userId, followerId uint64) error {
+	statement, err := repository.db.Prepare(
+		"insert ignore into followers (ID_user, ID_follower) values (?, ?)",
+	)
+	if err != nil {
+		return err
+	}
+	defer statement.Close()
+
+	if _, err = statement.Exec(userId, followerId); err != nil {
+		return err
+	}
+
+	return nil
+}

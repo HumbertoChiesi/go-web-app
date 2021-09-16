@@ -39,4 +39,11 @@ var usersRoutes = []Rout{
 		Function:           controllers.DeleteUser,
 		NeedAuthentication: true,
 	},
+
+	{
+		URI:                "/users/{userId}/follow",
+		Method:             http.MethodPost,
+		Function:           controllers.FollowUser,
+		NeedAuthentication: true,
+	},
 }
