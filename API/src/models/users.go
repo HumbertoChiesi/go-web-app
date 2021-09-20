@@ -9,7 +9,7 @@ import (
 	"github.com/badoux/checkmail"
 )
 
-//User represents an user using the social media
+//User represents a user using the social media
 type User struct {
 	ID        uint64    `json:"id,omitempty"`
 	Name      string    `json:"name,omitempty"`

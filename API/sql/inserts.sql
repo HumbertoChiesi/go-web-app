@@ -11,3 +11,9 @@ values
 (3, 1),
 (3, 2),
 (2, 1);
+
+insert into posts (title, content, poster_id)
+values
+("user 1 Post", "this is a post made by user 1", 1),
+("user 2 Post", "this is a post made by user 2", 2),
+("user 3 Post", "this is a post made by user 3", 3);

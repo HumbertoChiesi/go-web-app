@@ -46,4 +46,32 @@ var usersRoutes = []Rout{
 		Function:           controllers.FollowUser,
 		NeedAuthentication: true,
 	},
+
+	{
+		URI:                "/users/{userId}/unfollow",
+		Method:             http.MethodPost,
+		Function:           controllers.UnfollowUser,
+		NeedAuthentication: true,
+	},
+
+	{
+		URI:                "/users/{userId}/followers",
+		Method:             http.MethodGet,
+		Function:           controllers.SearchFollowers,
+		NeedAuthentication: true,
+	},
+
+	{
+		URI:                "/users/{userId}/following",
+		Method:             http.MethodGet,
+		Function:           controllers.SearchFollowing,
+		NeedAuthentication: true,
+	},
+
+	{
+		URI:                "/users/{userId}/update-password",
+		Method:             http.MethodPost,
+		Function:           controllers.UpdatePassword,
+		NeedAuthentication: true,
+	},
 }
