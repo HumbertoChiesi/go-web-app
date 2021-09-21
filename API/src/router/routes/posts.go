@@ -40,4 +40,25 @@ var postsRout = []Rout{
 		Function:           controllers.DeletePost,
 		NeedAuthentication: true,
 	},
+
+	{
+		URI:                "/users/{userId}/posts",
+		Method:             http.MethodGet,
+		Function:           controllers.SearchPostByUser,
+		NeedAuthentication: true,
+	},
+
+	{
+		URI:                "/posts/{postId}/like",
+		Method:             http.MethodPost,
+		Function:           controllers.LikePost,
+		NeedAuthentication: true,
+	},
+
+	{
+		URI:                "/posts/{postId}/unlike",
+		Method:             http.MethodPost,
+		Function:           controllers.UnlikePost,
+		NeedAuthentication: true,
+	},
 }

@@ -7,6 +7,7 @@ import (
 	repository "api/src/repositories"
 	"api/src/responses"
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -105,10 +106,177 @@ func SearchPost(w http.ResponseWriter, r *http.Request) {
 
 //UpdatePost update the data of one post
 func UpdatePost(w http.ResponseWriter, r *http.Request) {
+	userId, err := authentication.GetUserID(r)
+	if err != nil {
+		responses.JSON(w, http.StatusUnauthorized, err)
+		return
+	}
 
+	parameters := mux.Vars(r)
+	postId, err := strconv.ParseUint(parameters["postId"], 10, 64)
+	if err != nil {
+		responses.JSON(w, http.StatusBadRequest, err)
+		return
+	}
+
+	db, err := dBase.Connect()
+	if err != nil {
+		responses.JSON(w, http.StatusInternalServerError, err)
+		return
+	}
+	defer db.Close()
+
+	repository := repository.NewPostRepository(db)
+	dbPost, err := repository.SearchById(postId)
+	if err != nil {
+		responses.JSON(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	if dbPost.PosterID != userId {
+		responses.JSON(w, http.StatusForbidden, errors.New("not possible to update another user's post"))
+		return
+	}
+
+	requestBody, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		responses.JSON(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+
+	var post models.Post
+	if err = json.Unmarshal(requestBody, &post); err != nil {
+		responses.JSON(w, http.StatusBadRequest, err)
+		return
+	}
+
+	if err = post.Prepare(); err != nil {
+		responses.JSON(w, http.StatusBadRequest, err)
+		return
+	}
+
+	if err = repository.Update(postId, post); err != nil {
+		responses.JSON(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	responses.JSON(w, http.StatusOK, nil)
 }
 
 //DeletePost deletes the data from a specific post
 func DeletePost(w http.ResponseWriter, r *http.Request) {
+	userId, err := authentication.GetUserID(r)
+	if err != nil {
+		responses.JSON(w, http.StatusUnauthorized, err)
+		return
+	}
 
+	parameters := mux.Vars(r)
+	postId, err := strconv.ParseUint(parameters["postId"], 10, 64)
+	if err != nil {
+		responses.JSON(w, http.StatusBadRequest, err)
+		return
+	}
+
+	db, err := dBase.Connect()
+	if err != nil {
+		responses.JSON(w, http.StatusInternalServerError, err)
+		return
+	}
+	defer db.Close()
+
+	repository := repository.NewPostRepository(db)
+	dbPost, err := repository.SearchById(postId)
+	if err != nil {
+		responses.JSON(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	if dbPost.PosterID != userId {
+		responses.JSON(w, http.StatusForbidden, errors.New("not possible to update another user's post"))
+		return
+	}
+
+	if err = repository.Delete(postId); err != nil {
+		responses.JSON(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	responses.JSON(w, http.StatusNoContent, nil)
+}
+
+//SearchPostByUser gets all the posts of a specific user from the DB
+func SearchPostByUser(w http.ResponseWriter, r *http.Request) {
+	parameters := mux.Vars(r)
+	userId, err := strconv.ParseUint(parameters["userId"], 10, 64)
+	if err != nil {
+		responses.JSON(w, http.StatusBadRequest, err)
+		return
+	}
+
+	db, err := dBase.Connect()
+	if err != nil {
+		responses.JSON(w, http.StatusInternalServerError, err)
+		return
+	}
+	defer db.Close()
+
+	repository := repository.NewPostRepository(db)
+	posts, err := repository.SearchByUser(userId)
+	if err != nil {
+		responses.JSON(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	responses.JSON(w, http.StatusOK, posts)
+}
+
+//LikePost adds a like in the post
+func LikePost(w http.ResponseWriter, r *http.Request) {
+	parameters := mux.Vars(r)
+	postId, err := strconv.ParseUint(parameters["postId"], 10, 64)
+	if err != nil {
+		responses.JSON(w, http.StatusBadRequest, err)
+		return
+	}
+
+	db, err := dBase.Connect()
+	if err != nil {
+		responses.JSON(w, http.StatusInternalServerError, err)
+		return
+	}
+	defer db.Close()
+
+	repository := repository.NewPostRepository(db)
+	if err = repository.Like(postId); err != nil {
+		responses.JSON(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	responses.JSON(w, http.StatusNoContent, nil)
+}
+
+//LikePost removes a like in the post
+func UnlikePost(w http.ResponseWriter, r *http.Request) {
+	parameters := mux.Vars(r)
+	postId, err := strconv.ParseUint(parameters["postId"], 10, 64)
+	if err != nil {
+		responses.JSON(w, http.StatusBadRequest, err)
+		return
+	}
+
+	db, err := dBase.Connect()
+	if err != nil {
+		responses.JSON(w, http.StatusInternalServerError, err)
+		return
+	}
+	defer db.Close()
+
+	repository := repository.NewPostRepository(db)
+	if err = repository.Unlike(postId); err != nil {
+		responses.JSON(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	responses.JSON(w, http.StatusNoContent, nil)
 }
