@@ -1,0 +1,99 @@
+*{
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    box-sizing: border-box;
+    font-family: "Arial Rounded MT Bold", "Helvetica Rounded", Arial;
+    background-color: #d9e5ff;
+}
+
+.nav-bar {
+    position: fixed;
+    color: #3b5998;
+    background-color: #3b5998;
+    padding: 15px 0px 15px 30px;
+    border-bottom: 2px solid #85acff;
+    width: 100%;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+#logo{
+  color: white;
+  margin-left: 60px; 
+  background-color: #3b5998;
+  font-size: 34px;
+  font-weight: bold;
+}
+
+.container-login{
+    position: absolute;
+	background-color: white;
+	width: 400px;
+	height: 350px;
+	border-radius: 10px;
+	box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+	left: 50%;
+  	top: 50%;
+  	transform: translate(-50%,-50%);
+}
+
+.goject-form {
+    background-color: white;
+}
+
+.txt-input{
+    margin-top: 45px;
+    text-align: center;
+    background-color: white;
+}
+
+.txt-input input{
+	width: 80%;
+	padding: 10px 8px 10px 8px;
+	border: 1.5px solid #c8daff;
+  	border-radius: 10px;
+    background-color: white;
+    font-size: 15px;
+}
+
+.new-account {
+    margin-top: 60px;
+    text-align: center;
+    background-color: #ffffff;
+}
+
+.new-account a{
+    font-size: 16px;
+    color: #3b5998;
+    background-color: white;
+    line-height: 1.4;
+}
+
+.new-account a:hover{
+    text-decoration: none;
+}
+
+.btn-goject{
+    text-align: center;
+    background-color: #ffffff;
+}
+
+.btn-goject button{
+    margin-top: 20px;
+	margin-bottom: 15px;
+	border-radius: 10px;
+	color: white;
+	border: none;
+	background-color: #73b96a;
+	width: 80%;
+	padding: 10px 0 10px 0;
+}
+
+.btn-goject button:hover {
+    background-color: #8ab984;
+    cursor: pointer;
+}
+
