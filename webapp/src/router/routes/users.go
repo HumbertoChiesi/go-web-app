@@ -12,4 +12,11 @@ var usersRouts = []Rout{
 		Function:           controllers.LoadUserRegisterScreen,
 		NeedAuthentication: false,
 	},
+
+	{
+		URI:                "/users",
+		Method:             http.MethodPost,
+		Function:           controllers.CreateUser,
+		NeedAuthentication: false,
+	},
 }
