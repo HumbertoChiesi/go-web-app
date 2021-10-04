@@ -17,5 +17,10 @@ function createUser(event){
             nick: $('#nick').val(),
             password: $('#password').val(),
         }
+    }).done(function (){
+        alert("user successfully signed up")
+    }).fail(function(err){
+        console.log(err)
+        alert("error while signing up the user")
     })
 }

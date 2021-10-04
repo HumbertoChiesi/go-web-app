@@ -6,25 +6,24 @@ import (
 	"fmt"
 	"net/http"
 	"webapp/src/config"
+	"webapp/src/models"
 	"webapp/src/responses"
 )
 
-//CreateUser calls the API to create a user in the DB
-func CreateUser(w http.ResponseWriter, r *http.Request) {
+func SignIn(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 
 	user, err := json.Marshal(map[string]string{
-		"name":     r.FormValue("name"),
 		"email":    r.FormValue("email"),
-		"nick":     r.FormValue("nick"),
 		"password": r.FormValue("password"),
 	})
+
 	if err != nil {
 		responses.JSON(w, http.StatusBadRequest, responses.ErrAPI{Err: err.Error()})
 		return
 	}
 
-	url := fmt.Sprintf("%s/users", config.APIURL)
+	url := fmt.Sprintf("%s/login", config.APIURL)
 	response, err := http.Post(url, "application/json", bytes.NewBuffer(user))
 	if err != nil {
 		responses.JSON(w, http.StatusInternalServerError, responses.ErrAPI{Err: err.Error()})
@@ -34,7 +33,14 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 
 	if response.StatusCode >= 400 {
 		responses.ProcessStatusCodeErr(w, response)
-	} else {
-		responses.JSON(w, response.StatusCode, nil)
+		return
 	}
+
+	var authenticationData models.AuthenticationData
+	if err = json.NewDecoder(response.Body).Decode(&authenticationData); err != nil {
+		responses.JSON(w, http.StatusUnprocessableEntity, responses.ErrAPI{Err: err.Error()})
+		return
+	}
+
+	responses.JSON(w, http.StatusOK, nil)
 }
