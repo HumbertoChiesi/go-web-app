@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Home Page</title>
+	<script src="https://kit.fontawesome.com/3b108c4584.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/home.css">
+</head>
+<body>
+    <div class="nav-bar">
+        <a id="logo" href="/home">Goject</a>
+        <a href="/" id="disconnectIcon"><i class="fas fa-sign-out-alt"></i></a>
+    </div>
+    <div id="main">
+        {{ range . }}
+            <div class="post">
+                <h3 id="title"> {{ .Title }} </h3>
+                <h5 id="content"> {{ .Content }}</h5>
+            </div>
+        {{ end }}
+    </div>
+</body>
+</html>

@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	"webapp/src/config"
+	"webapp/src/cookies"
 	"webapp/src/models"
 	"webapp/src/responses"
 )
@@ -38,6 +39,11 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 
 	var authenticationData models.AuthenticationData
 	if err = json.NewDecoder(response.Body).Decode(&authenticationData); err != nil {
+		responses.JSON(w, http.StatusUnprocessableEntity, responses.ErrAPI{Err: err.Error()})
+		return
+	}
+
+	if err = cookies.Save(w, authenticationData.ID, authenticationData.Token); err != nil {
 		responses.JSON(w, http.StatusUnprocessableEntity, responses.ErrAPI{Err: err.Error()})
 		return
 	}

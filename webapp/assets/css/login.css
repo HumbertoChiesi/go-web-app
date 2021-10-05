@@ -4,13 +4,16 @@
     text-decoration: none;
     box-sizing: border-box;
     font-family: "Arial Rounded MT Bold", "Helvetica Rounded", Arial;
+}
+
+body{
     background-color: #d9e5ff;
 }
 
 .nav-bar {
     position: fixed;
-    color: #3b5998;
-    background-color: #3b5998;
+    color: white;
+    background-color: white;
     padding: 15px 0px 15px 30px;
     border-bottom: 2px solid #85acff;
     width: 100%;
@@ -21,9 +24,9 @@
 }
 
 #logo{
-  color: white;
+  color: #3b5998;
   margin-left: 60px; 
-  background-color: #3b5998;
+  background-color: white;
   font-size: 34px;
   font-weight: bold;
 }

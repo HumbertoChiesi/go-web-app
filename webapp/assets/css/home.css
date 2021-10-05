@@ -1,0 +1,54 @@
+*{
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    box-sizing: border-box;
+    font-family: "Arial Rounded MT Bold", "Helvetica Rounded", Arial;
+}
+
+body{
+    background-color: #d9e5ff;
+}
+
+.nav-bar {
+    position: fixed;
+    color: white;
+    background-color: white;
+    padding: 15px 0px 15px 30px;
+    border-bottom: 2px solid #85acff;
+    width: 100%;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+#logo{
+  color: #3b5998;
+  margin-left: 60px; 
+  background-color: white;
+  font-size: 34px;
+  font-weight: bold;
+}
+
+#disconnectIcon {
+    color: #3b5998;
+    position: fixed;
+    right: 20px;
+    font-size: 30px;
+}
+
+#main {
+    margin-right: 35%;
+    margin-left: 35%;
+    margin-top: 70px;
+    padding: 20px 0px 20px 0px;
+}
+
+.post {
+    height: 300px;
+    margin-bottom: 5px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px -4px rgba(0,0,0,0.5);
+    background-color: white;
+}
