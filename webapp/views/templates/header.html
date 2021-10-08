@@ -1,0 +1,19 @@
+{{ define "header"}}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a id="logo" href="/home">Goject</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+          </ul>
+          <a class="nav-link" href="">My Profile</a>
+          <form class="form-inline my-2 my-lg-0" action="/search-users" method="GET">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search Users" aria-label="Search"
+            id="user" name="user" required="required">
+          </form>
+          <a href="/logout" id="disconnectIcon"><i class="fas fa-sign-out-alt"></i></a>
+        </div>
+    </nav>
+{{ end }}

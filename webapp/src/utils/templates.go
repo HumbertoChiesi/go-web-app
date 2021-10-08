@@ -10,6 +10,7 @@ var templates *template.Template
 //LoadTemplates inserts the templates in the var templates
 func LoadTemplates() {
 	templates = template.Must(template.ParseGlob("views/*.html"))
+	templates = template.Must(templates.ParseGlob("views/templates/*.html"))
 }
 
 //ExecTemplate render a html in the page

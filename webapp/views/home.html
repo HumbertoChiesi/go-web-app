@@ -5,19 +5,61 @@
 	<script src="https://kit.fontawesome.com/3b108c4584.js" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" type="text/css" href="/assets/css/home.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.css">
 </head>
 <body>
-    <div class="nav-bar">
-        <a id="logo" href="/home">Goject</a>
-        <a href="/" id="disconnectIcon"><i class="fas fa-sign-out-alt"></i></a>
-    </div>
-    <div id="main">
-        {{ range . }}
-            <div class="post">
-                <h3 id="title"> {{ .Title }} </h3>
-                <h5 id="content"> {{ .Content }}</h5>
+    {{ template "header" }}
+    <div class="container-fluid">
+        <div class="row mt-4">
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                <div class="friends">
+                    
+                </div>
             </div>
-        {{ end }}
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                <div class="main">
+                    <div class="post">
+                        <h3>New Post</h3>
+                        <fieldset>
+                            <form id="new-post">
+                                <div class="form-group">
+                                    <label for="title">Title</label>
+                                    <input type="text" class="form-control" id="title" name="title" required="required" placeholder="Title">
+                                </div>
+                                <div class="form-group">
+                                    <label for="content">Content</label>
+                                    <textarea class="form-control" id="content" name="content" required="required" 
+                                    placeholder="Write your post's content"></textarea>
+                                </div>
+                                <button class="btn btn-primary" type="submit">
+                                    Post
+                                </button>
+                            </form>
+                        </fieldset>
+                    </div>
+                    {{ range .Posts }}
+                    <div class="post">
+                        <div class="jumbotron">
+                            <h1 class="display-4"> {{ .Title }} </h1>
+                            <p class="lead">{{ .Content }}</p>
+                            <a href="#"> {{ .PosterNick }} {{ .CreatedOn }}</a>
+                            <hr class="my-4">             
+                            {{ if (eq .PosterID $.UserId) }}
+                            <p>edite remove</p>
+                            {{ else }}
+                            <p>like</p>
+                            {{ end }}
+                        </div>
+                    </div>
+                    {{ end }}
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4"></div>
+        </div>
     </div>
+
+    {{ template "footer"}}}
+    {{ template "scripts" }}
+    <script src="/assets/js/posts.js"></script>
 </body>
 </html>

@@ -6,26 +6,26 @@ import (
 	"fmt"
 	"net/http"
 	"webapp/src/config"
+	"webapp/src/requests"
 	"webapp/src/responses"
 )
 
-//CreateUser calls the API to create a user in the DB
-func CreateUser(w http.ResponseWriter, r *http.Request) {
+//CreatePost calls the API to create a post in the DB
+func CreatePost(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 
-	user, err := json.Marshal(map[string]string{
-		"name":     r.FormValue("name"),
-		"email":    r.FormValue("email"),
-		"nick":     r.FormValue("nick"),
-		"password": r.FormValue("password"),
+	post, err := json.Marshal(map[string]string{
+		"title":   r.FormValue("title"),
+		"content": r.FormValue("content"),
 	})
+
 	if err != nil {
 		responses.JSON(w, http.StatusBadRequest, responses.ErrAPI{Err: err.Error()})
 		return
 	}
 
-	url := fmt.Sprintf("%s/users", config.APIURL)
-	response, err := http.Post(url, "application/json", bytes.NewBuffer(user))
+	url := fmt.Sprintf("%s/posts", config.APIURL)
+	response, err := requests.MakeRequestWithAuthentication(r, http.MethodPost, url, bytes.NewBuffer(post))
 	if err != nil {
 		responses.JSON(w, http.StatusInternalServerError, responses.ErrAPI{Err: err.Error()})
 		return
