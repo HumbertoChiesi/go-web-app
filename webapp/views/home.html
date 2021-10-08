@@ -38,19 +38,11 @@
                         </fieldset>
                     </div>
                     {{ range .Posts }}
-                    <div class="post">
-                        <div class="jumbotron">
-                            <h1 class="display-4"> {{ .Title }} </h1>
-                            <p class="lead">{{ .Content }}</p>
-                            <a href="#"> {{ .PosterNick }} {{ .CreatedOn }}</a>
-                            <hr class="my-4">             
-                            {{ if (eq .PosterID $.UserId) }}
-                            <p>edite remove</p>
-                            {{ else }}
-                            <p>like</p>
-                            {{ end }}
-                        </div>
-                    </div>
+                        {{ if (eq .PosterID $.UserId) }}
+                            {{ template "post-with-permission" . }}
+                        {{ else }}
+                            {{ template "post-without-permission" . }}
+                        {{ end }}
                     {{ end }}
                 </div>
             </div>

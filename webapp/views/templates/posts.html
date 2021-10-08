@@ -1,0 +1,40 @@
+{{ define "likes" }}
+<span> {{ .Likes }} Likes</span>
+{{ end }}
+
+{{ define "edit" }}
+<a href="/edit">Edit Post</a>
+{{ end }}
+
+{{ define "delete" }}
+<a href="/delet">Delet Post</a>
+{{ end }}
+
+{{ define "header-post"}}
+    <h1 class="display-4"> {{ .Title }} </h1>
+    <p class="lead">{{ .Content }}</p>
+    <a href="#"> {{ .PosterNick }} {{ .CreatedOn.Format "02/01/2006 3:4" }}</a>
+    <hr class="my-4"> 
+{{ end }}
+
+{{ define "post-with-permission" }}
+    <div class="post">
+        <div class="jumbotron" data-post-id="{{ .ID }}">
+            {{ template "header-post" . }}
+            <p> 
+                {{ template "likes" . }}
+                {{ template "edit" }}
+                {{ template "delete" }}
+            </p>
+        </div>
+    </div>
+{{ end }}
+
+{{ define "post-without-permission" }}
+    <div class="post">
+        <div class="jumbotron" data-post-id="{{ .ID }}">
+            {{ template "header-post" . }}
+            <p> {{ template "likes" . }}</p>
+        </div>
+    </div>
+{{ end }}
