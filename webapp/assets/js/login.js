@@ -12,7 +12,8 @@ function signIn(event) {
         }
     }).done(function() {
         window.location = "/home";
-    }).fail(function() {
-        alert("Invalid ")
+    }).fail(function(err) {
+        console.log(err)
+        alert("Email or password are wrong")
     });
 }

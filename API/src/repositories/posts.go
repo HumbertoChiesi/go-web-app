@@ -179,8 +179,8 @@ func (repository Post) Like(postId uint64) error {
 	return nil
 }
 
-//Unlike adds a like in the post
-func (repository Post) Unlike(postId uint64) error {
+//Dislike adds a like in the post
+func (repository Post) Dislike(postId uint64) error {
 	statement, err := repository.db.Prepare(`update posts set likes = 
 		CASE WHEN likes > 0 THEN likes - 1 Else 0 END
 		where id = ?

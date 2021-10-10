@@ -29,7 +29,7 @@ var postsRout = []Rout{
 
 	{
 		URI:                "/posts/{postId}",
-		Method:             http.MethodPost,
+		Method:             http.MethodPut,
 		Function:           controllers.UpdatePost,
 		NeedAuthentication: true,
 	},
@@ -56,9 +56,9 @@ var postsRout = []Rout{
 	},
 
 	{
-		URI:                "/posts/{postId}/unlike",
+		URI:                "/posts/{postId}/dislike",
 		Method:             http.MethodPost,
-		Function:           controllers.UnlikePost,
+		Function:           controllers.DislikePost,
 		NeedAuthentication: true,
 	},
 }

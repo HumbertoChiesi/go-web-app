@@ -11,6 +11,8 @@ import (
 	"webapp/src/requests"
 	"webapp/src/responses"
 	"webapp/src/utils"
+
+	"github.com/gorilla/mux"
 )
 
 //LoadLoginScreen loads login screen
@@ -55,4 +57,35 @@ func LoadHomePage(w http.ResponseWriter, r *http.Request) {
 		Posts:  posts,
 		UserId: userId,
 	})
+}
+
+//LoadPostEditingPage loads the post editing page
+func LoadPostEditingPage(w http.ResponseWriter, r *http.Request) {
+	parameters := mux.Vars(r)
+	postId, err := strconv.ParseUint(parameters["postId"], 10, 64)
+	if err != nil {
+		responses.JSON(w, http.StatusBadRequest, responses.ErrAPI{Err: err.Error()})
+		return
+	}
+
+	url := fmt.Sprintf("%s/posts/%d", config.APIURL, postId)
+	response, err := requests.MakeRequestWithAuthentication(r, http.MethodGet, url, nil)
+	if err != nil {
+		responses.JSON(w, http.StatusInternalServerError, responses.ErrAPI{Err: err.Error()})
+		return
+	}
+	defer response.Body.Close()
+
+	if response.StatusCode >= 400 {
+		responses.ProcessStatusCodeErr(w, response)
+		return
+	}
+
+	var post models.Post
+	if err = json.NewDecoder(response.Body).Decode(&post); err != nil {
+		responses.JSON(w, http.StatusUnprocessableEntity, responses.ErrAPI{Err: err.Error()})
+		return
+	}
+
+	utils.ExecTemplate(w, "post-update.html", post)
 }

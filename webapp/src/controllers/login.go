@@ -49,4 +49,5 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 	}
 
 	responses.JSON(w, http.StatusOK, nil)
+	fmt.Println(w.Header().Get("Content-Type"))
 }

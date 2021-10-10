@@ -1,13 +1,18 @@
 {{ define "likes" }}
-<span> {{ .Likes }} Likes</span>
+<i class="fas fa-thumbs-up like-post"></i>
+<span> {{ .Likes }}</span>
 {{ end }}
 
 {{ define "edit" }}
-<a href="/edit">Edit Post</a>
+<a href="/posts/{{ .ID }}/edit" style="text-decoration: none; margin-left: 10px; color: black;">
+    <i class="fas fa-edit"></i>
+</a>
 {{ end }}
 
 {{ define "delete" }}
-<a href="/delet">Delet Post</a>
+<a href="/delet" style="text-decoration: none; margin-left: 10px;">
+    <i class="fas fa-trash-alt text-danger"></i>
+</a>
 {{ end }}
 
 {{ define "header-post"}}
@@ -23,8 +28,8 @@
             {{ template "header-post" . }}
             <p> 
                 {{ template "likes" . }}
-                {{ template "edit" }}
-                {{ template "delete" }}
+                {{ template "edit" .}}
+                {{ template "delete" .}}
             </p>
         </div>
     </div>
