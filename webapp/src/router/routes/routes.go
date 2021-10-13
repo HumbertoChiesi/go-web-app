@@ -21,6 +21,7 @@ func Config(r *mux.Router) *mux.Router {
 	routs = append(routs, usersRouts...)
 	routs = append(routs, homePageRout)
 	routs = append(routs, postsRout...)
+	routs = append(routs, logoutRout)
 
 	for _, rout := range routs {
 		if rout.NeedAuthentication {

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{ .User.Name }}</title>
+        <link rel="stylesheet" type="text/css" href="/assets/css/home.css">
+        <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.css">
+    </head>
+<body>
+    {{ template "header" }}
+    {{ $FollowedByLoggedUser := false }}
+    {{ range .User.Followers }}
+        {{ if (eq .ID $.UserLoggedId)   }}
+                {{ $FollowedByLoggedUser = true }}
+        {{ end }}
+    {{ end }}
+    <div class="container-fluid">
+        <div class="row mt-4">
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                <div class="profile">
+                    <h2 style="margin-bottom: 0px;">{{ .User.Name }} </h2>
+                    <h6 class="text-muted">@{{ .User.Nick }}</h6>
+                    <h6 style="margin-top: 35px;"><i class="far fa-calendar-alt text-muted"></i> since {{ .User.CreatedOn.Format "02/01/2006" }}</h6>
+                    <h6>
+                        <a href="#" style="color: black;" data-toggle="modal" data-target="#modal-followers">
+                            Followers: {{len .User.Followers }}   
+                        </a>
+                        <a href="#" class="ml-2" style="color: black;" data-toggle="modal" data-target="#modal-following">
+                            Following: {{len .User.Following }}
+                        </a>
+                    </h6>
+                    
+                    {{ if $FollowedByLoggedUser }}
+                        <button id="unfollow" class="btn btn-danger" data-user-id="{{ .User.ID }}">
+                            Unfollow
+                        </button>
+                    {{ else }}
+                        <button id="follow" class="btn btn-success" data-user-id="{{ .User.ID }}">
+                            Follow
+                        </button>
+                    {{ end}}
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                <div class="main">
+                    {{ range .User.Posts}}
+                        {{ template "post-without-permission" . }}
+                    {{ else }}
+                        <div class="post">
+                            <h1 style="padding: 125px 0px 126px 0px;text-align: center;">
+                                Still no posts yets...
+                            </h1>
+                        </div>
+                    {{ end }}
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4"></div>
+        </div>
+    </div>
+
+    {{ template "modal-followers" .User }}
+    {{ template "modal-following" .User }}
+    {{ template "footer" }}
+    {{ template "scripts" }}
+    <script src="/assets/js/posts.js"></script>
+    <script src="/assets/js/user.js"></script>
+</body>
+</html>

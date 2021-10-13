@@ -35,7 +35,7 @@ body{
     position: absolute;
 	background-color: white;
 	width: 400px;
-	height: 600px;
+	height: 590px;
 	border-radius: 10px;
 	box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
 	left: 50%;
@@ -48,14 +48,14 @@ body{
 }
 
 .txt-input{
-    margin-top: 45px;
+    margin-top: 35px;
     text-align: center;
     background-color: white;
 }
 
 .txt-input input{
 	width: 80%;
-	padding: 10px 8px 10px 8px;
+	padding: 14px 16px;
 	border: 1.5px solid #c8daff;
   	border-radius: 10px;
     background-color: white;

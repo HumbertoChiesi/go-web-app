@@ -44,7 +44,6 @@ body{
 }
 
 .post {
-    height: 300px;
     margin-top: 10px;
     margin-bottom: 20px;
     border-radius: 10px;
@@ -52,10 +51,32 @@ body{
     background-color: white;
 }
 
+.post a{
+    text-decoration: none;
+    color: black;
+}
+
+.profile {
+    max-width: 400px;
+    margin: 10px 20px 20px auto;
+    padding: 20px 20px 20px 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px -4px rgba(0,0,0,0.5);
+    background-color: white;
+}
+
+.profile a:hover{
+    text-decoration: underline;
+}
+
 .like-post:hover{
     cursor: pointer;
 }
 
 .dislike-post:hover{
+    cursor: pointer;
+}
+
+.delete-post:hover{
     cursor: pointer;
 }

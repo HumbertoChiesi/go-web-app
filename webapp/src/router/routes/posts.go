@@ -36,4 +36,10 @@ var postsRout = []Rout{
 		Function:           controllers.UpdatePost,
 		NeedAuthentication: true,
 	},
+	{
+		URI:                "/posts/{postId}",
+		Method:             http.MethodDelete,
+		Function:           controllers.DeletePost,
+		NeedAuthentication: true,
+	},
 }

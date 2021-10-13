@@ -125,3 +125,27 @@ func UpdatePost(w http.ResponseWriter, r *http.Request) {
 
 	responses.JSON(w, response.StatusCode, nil)
 }
+
+//DeletePost calls the API to delete a post
+func DeletePost(w http.ResponseWriter, r *http.Request) {
+	parameters := mux.Vars(r)
+	postId, err := strconv.ParseUint(parameters["postId"], 10, 64)
+	if err != nil {
+		responses.JSON(w, http.StatusBadRequest, responses.ErrAPI{Err: err.Error()})
+		return
+	}
+
+	url := fmt.Sprintf("%s/posts/%d", config.APIURL, postId)
+	response, err := requests.MakeRequestWithAuthentication(r, http.MethodDelete, url, nil)
+	if err != nil {
+		responses.JSON(w, http.StatusInternalServerError, responses.ErrAPI{Err: err.Error()})
+		return
+	}
+	defer response.Body.Close()
+
+	if response.StatusCode >= 400 {
+		responses.ProcessStatusCodeErr(w, response)
+	}
+
+	responses.JSON(w, response.StatusCode, nil)
+}

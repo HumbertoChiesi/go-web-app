@@ -1,9 +1,10 @@
-$('#new-post').on('submit', createPost)
+$('#new-post').on('submit', createPost);
 
-$(document).on('click', '.like-post', likePost)
-$(document).on('click', '.dislike-post', dislikePost)
+$(document).on('click', '.like-post', likePost);
+$(document).on('click', '.dislike-post', dislikePost);
 
-$('#update-post').on('click', updatePost)
+$('#update-post').on('click', updatePost);
+$('.delete-post').on('click', deletePost);
 
 
 
@@ -20,7 +21,7 @@ function createPost(event){
     }).done(function(){
         window.location="/home"
     }).fail(function(){
-        alert("ERROR while creating the post")
+        Swal.fire("Ops...", "ERROR while creating the post", "error")
     })
 }
 
@@ -44,7 +45,7 @@ function likePost(event){
         clickedElement.addClass('text-primary')
         clickedElement.removeClass('like-post')
     }).fail(function(){
-        alert('ERROR' + postId)
+        Swal.fire("Ops...", "ERROR", "error")
     }).always(function (){
         clickedElement.prop('disabled', false);
     });
@@ -70,7 +71,7 @@ function dislikePost(event){
         clickedElement.removeClass('text-primary')
         clickedElement.removeClass('dislike-post')
     }).fail(function(){
-        alert('ERROR' + postId)
+        Swal.fire("Ops...", "ERROR", "error")
     }).always(function (){
         clickedElement.prop('disabled', false);
     });
@@ -90,10 +91,44 @@ function updatePost(event){
             content: $('#content').val(),
         }
     }).done(function (){
-        alert("post edited")
+        Swal.fire('Success!', 'Post updated with success!', 'success').then(function() {
+            window.location = "/home";
+        })
     }).fail(function(){
-        alert("Error while editing the post")
+        Swal.fire("Ops...", "Error while editing the post!", "error");
     }).always(function(){
         $('#update-post').prop('disabled', false);
+    })
+}
+
+function deletePost(event){
+    event.preventDefault();
+
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const clickedElement = $(event.target);
+            const post = clickedElement.closest('div');
+            const postId = post.data('post-id');
+        
+            clickedElement.prop('disabled', true);
+            $.ajax({
+                url: `/posts/${postId}`,
+                method: "DELETE",
+            }).done(function(){
+                post.fadeOut("slow", function(){
+                    $(this).remove();
+                });
+            }).fail(function(){
+                Swal.fire("Ops...", "ERROR while deleting the post!", "error")
+            })
+        }
     })
 }

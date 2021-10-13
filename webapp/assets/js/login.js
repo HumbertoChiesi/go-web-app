@@ -14,6 +14,6 @@ function signIn(event) {
         window.location = "/home";
     }).fail(function(err) {
         console.log(err)
-        alert("Email or password are wrong")
+        Swal.fire("Ops...", "The email or password are wrong", "error")
     });
 }

@@ -10,36 +10,35 @@
 {{ end }}
 
 {{ define "delete" }}
-<a href="/delet" style="text-decoration: none; margin-left: 10px;">
-    <i class="fas fa-trash-alt text-danger"></i>
-</a>
+<i class="fas fa-trash-alt delete-post text-danger" style="margin-left: 10px;"></i>
 {{ end }}
 
 {{ define "header-post"}}
     <h1 class="display-4"> {{ .Title }} </h1>
     <p class="lead">{{ .Content }}</p>
-    <a href="#"> {{ .PosterNick }} {{ .CreatedOn.Format "02/01/2006 3:4" }}</a>
+    <p style="margin-top: 55px;">
+        <a href="/users/{{ .PosterID}}" class="font-weight-bold"> {{ .PosterNick }}   </a>
+        -   {{ .CreatedOn.Format "02/01/2006 3:4" }}
+    </p>
     <hr class="my-4"> 
 {{ end }}
 
 {{ define "post-with-permission" }}
-    <div class="post">
-        <div class="jumbotron" data-post-id="{{ .ID }}">
-            {{ template "header-post" . }}
-            <p> 
-                {{ template "likes" . }}
-                {{ template "edit" .}}
-                {{ template "delete" .}}
-            </p>
-        </div>
+    <div class="jumbotron post" data-post-id="{{ .ID }}">
+        {{ template "header-post" . }}
+        <p> 
+            {{ template "likes" . }}
+            {{ template "edit" .}}
+            {{ template "delete" .}}
+        </p>
     </div>
 {{ end }}
 
 {{ define "post-without-permission" }}
-    <div class="post">
-        <div class="jumbotron" data-post-id="{{ .ID }}">
-            {{ template "header-post" . }}
-            <p> {{ template "likes" . }}</p>
-        </div>
+
+    <div class="jumbotron post" data-post-id="{{ .ID }}">
+        {{ template "header-post" . }}
+        <p> {{ template "likes" . }}</p>
     </div>
+
 {{ end }}

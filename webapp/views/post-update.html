@@ -20,23 +20,19 @@
             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
                 <div class="main">
                     <div class="post">
-                        <h3>Update Post</h3>
-                        <fieldset>
-                            <form>
-                                <div class="form-group">
-                                    <label for="title">Title</label>
-                                    <input type="text" value="{{ .Title }}" class="form-control" id="title" name="title" required="required" placeholder="Title">
-                                </div>
-                                <div class="form-group">
-                                    <label for="content">Content</label>
-                                    <textarea class="form-control" id="content" name="content" required="required" 
-                                    placeholder="Write your post's content">{{ .Content }}</textarea>
-                                </div>
-                                <button class="btn btn-primary" id="update-post" data-post-id="{{ .ID }}" type="submit">
-                                    Update Post
-                                </button>
-                            </form>
-                        </fieldset>
+                        <h3 class="text-center pt-2">Update Post</h3>
+                            <div class="form-group">
+                                <label for="title" style="margin-left: 5%;">Title</label>
+                                <input type="text" value="{{ .Title }}" class="form-control" id="title" name="title" required="required" placeholder="Title">
+                            </div>
+                            <div class="form-group">
+                                <label for="content" style="margin-left: 5%;">Content</label>
+                                <textarea class="form-control" id="content" name="content" required="required" 
+                                placeholder="Write your post's content">{{ .Content }}</textarea>
+                            </div>
+                            <div class="text-center">
+                                <button class="btn btn-primary mb-3 ml-3" id="update-post" data-post-id="{{ .ID }}">Update Post</button>
+                            </div>
                     </div>
                 </div>
             </div>

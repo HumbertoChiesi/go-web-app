@@ -2003,9 +2003,11 @@ pre code {
 
 .form-control {
   display: block;
-  width: 100%;
+  width: 90%;
   height: calc(1.5em + 0.75rem + 2px);
-  padding: 0.375rem 0.75rem;
+  padding: 20px 24px;
+  margin-left: auto;
+  margin-right: auto;
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
